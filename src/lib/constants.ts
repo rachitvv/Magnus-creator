@@ -73,22 +73,12 @@ export const SERVICES = [
 
 export interface PortfolioProject {
   id: string;
-  title: string;
-  category: string;
-  description: string;
-  video: string; // public path
-  thumbnail?: string;
-  tag: string;
-}
-
-export interface PortfolioProject {
-  id: string;
   slug: string;
   title: string;
   category: string;
   description: string;
   video: string; // public path
-  thumbnail?: string;
+  poster?: string; // public path
   tag: string;
   tagline: string;
   story: string;
