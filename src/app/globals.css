@@ -1,0 +1,235 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #050505;
+  --electric-blue: #00E5FF;
+  --purple-accent: #8B5CF6;
+  --white: #ffffff;
+  --text-muted: #999999;
+  --glass-fill: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glow-blue: rgba(0, 229, 255, 0.15);
+  --glow-purple: rgba(139, 92, 246, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg);
+  color: var(--white);
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--bg);
+  /* Static cinematic background — no animation, no mix-blend-mode */
+  background-image:
+    radial-gradient(ellipse 90% 50% at 50% -10%, rgba(0, 229, 255, 0.10), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 10% 100%, rgba(139, 92, 246, 0.08), transparent 55%),
+    radial-gradient(ellipse 50% 35% at 95% 95%, rgba(0, 229, 255, 0.06), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* Static film grain — no animation, lighter blend */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Glassmorphism utility — reduced blur for perf */
+.glass {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+}
+
+/* Only apply backdrop-filter on capable, large screens — skip on mobile */
+@media (min-width: 768px) and (hover: hover) {
+  .glass {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}
+
+/* Glow utilities */
+.glow-blue {
+  box-shadow: 0 0 20px var(--glow-blue), 0 0 40px var(--glow-blue);
+}
+
+.glow-purple {
+  box-shadow: 0 0 20px var(--glow-purple), 0 0 40px var(--glow-purple);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--electric-blue);
+  border-radius: 3px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Custom cursor — hide native cursor on devices with a fine pointer */
+@media (hover: hover) and (pointer: fine) {
+  html.custom-cursor-active,
+  html.custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+/* Cursor primitives */
+.cursor-dot,
+.cursor-ring,
+.cursor-aperture,
+.cursor-crosshair,
+.cursor-label {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform, opacity;
+}
+
+/* Page transition overlay */
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 9990;
+  pointer-events: none;
+  transform-origin: top;
+}
+
+/* Glow utilities for buttons */
+.glow-blue {
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.3), 0 0 40px rgba(0, 229, 255, 0.15);
+}
+
+.glow-purple {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3), 0 0 40px rgba(139, 92, 246, 0.15);
+}
+
+/* Scroll indicator bounce */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+.scroll-indicator-arrow {
+  animation: scrollBounce 1.5s ease-in-out infinite;
+}
+
+/* Marquee animation */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.marquee-content {
+  display: inline-flex;
+  animation: marquee-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+/* Text reveal clip */
+.text-reveal-line {
+  overflow: hidden;
+  display: block;
+}
+
+/* Accessibility */
+
+/* Skip to content link */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--electric-blue);
+  color: var(--bg);
+  padding: 0.5rem 1rem;
+  z-index: 99999;
+  font-weight: 600;
+  transition: top 0.2s;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Focus visible styles */
+*:focus-visible {
+  outline: 2px solid var(--electric-blue);
+  outline-offset: 3px;
+}
+
+/* Screen reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Ensure minimum touch target size */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Reduced motion — disable animations */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-indicator-arrow {
+    animation: none !important;
+  }
+
+  .marquee-content {
+    animation: none !important;
+  }
+
+  .glow-blue,
+  .glow-purple {
+    box-shadow: none !important;
+  }
+}
