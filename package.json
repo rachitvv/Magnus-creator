@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "git lfs pull && vercel --prod --yes",
+    "deploy:preview": "git lfs pull && vercel --yes"
   },
   "dependencies": {
     "@gsap/react": "^2.1.1",
